@@ -9,10 +9,3 @@ class Aim(models.Model):
     value = models.PositiveBigIntegerField()
     budget = models.ForeignKey(to=Budget, related_name='aims', on_delete=models.CASCADE)
     end_date = models.DateField()
-
-
-    # id (uuid)
-    # name (charfield, max 255)
-    # value (positive integer)
-    # budget (fk->Budget)
-    # end_date (datefield)
