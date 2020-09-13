@@ -34,7 +34,14 @@ class AimModelTest(TestCase):
 
 
 class BudgetModelTest(TestCase):
-    pass
+    def test_budget_can_be_created(self):
+        user = User.objects.create(username='admin', password='123')
+        Budget.objects.create(name='main', owner=user)
+
+        budget = Budget.objects.first()
+
+        self.assertEqual(budget.name, 'main')
+        self.assertEqual(budget.owner, user)
 
 
 class ExpenseModelTest(TestCase):
