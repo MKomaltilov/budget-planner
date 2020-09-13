@@ -49,4 +49,18 @@ class ExpenseModelTest(TestCase):
 
 
 class IncomeModelTest(TestCase):
-    pass
+    def test_income_can_be_created(self):
+        user = User.objects.create(username='admin', password='123')
+        budget = Budget.objects.create(name='main', owner=user)
+        Income.objects.create(
+            name='test income',
+            value=10_000,
+            budget=budget
+        )
+
+        income = Income.objects.first()
+
+        self.assertEqual(income.name, 'test income')
+        self.assertEqual(income.value, 10_000)
+        self.assertEqual(income.budget, budget)
+        self.assertTrue(income.active)
