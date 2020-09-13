@@ -45,7 +45,56 @@ class BudgetModelTest(TestCase):
 
 
 class ExpenseModelTest(TestCase):
-    pass
+    def test_expense_with_default_parameters_can_be_created(self):
+        user = User.objects.create(username='admin', password='123')
+        budget = Budget.objects.create(name='main', owner=user)
+
+        Expense.objects.create(
+            name='test expense',
+            value=30_000,
+            budget=budget
+        )
+
+        expense = Expense.objects.first()
+
+        self.assertEqual(expense.name, 'test expense')
+        self.assertEqual(expense.value, 30_000)
+        self.assertEqual(expense.description, '')
+        self.assertEqual(expense.start_date, date.today())
+        self.assertIsNone(expense.end_date)
+        self.assertEqual(expense.budget, budget)
+        self.assertIsNone(expense.aim)
+        self.assertTrue(expense.active)
+
+    def test_expense_with_description_and_aim_parameters_can_be_created(self):
+        user = User.objects.create(username='admin', password='123')
+        budget = Budget.objects.create(name='main', owner=user)
+        date_now = date.today()
+        aim = Aim.objects.create(
+            name='Buy a house',
+            value=4_000_000,
+            budget=budget,
+            end_date=date_now
+        )
+
+        Expense.objects.create(
+            name='test expense',
+            value=30_000,
+            description='some description',
+            budget=budget,
+            aim=aim
+        )
+
+        expense = Expense.objects.first()
+
+        self.assertEqual(expense.name, 'test expense')
+        self.assertEqual(expense.value, 30_000)
+        self.assertEqual(expense.description, 'some description')
+        self.assertEqual(expense.start_date, date.today())
+        self.assertIsNone(expense.end_date)
+        self.assertEqual(expense.budget, budget)
+        self.assertEqual(expense.aim, aim)
+        self.assertTrue(expense.active)
 
 
 class IncomeModelTest(TestCase):

@@ -13,5 +13,5 @@ class Expense(models.Model):
     start_date = models.DateField(default=date.today)
     end_date = models.DateField(null=True, blank=True)
     budget = models.ForeignKey(to=Budget, related_name='expenses', on_delete=models.CASCADE)
-    aim = models.ForeignKey(to=Aim, related_name='expenses', on_delete=models.CASCADE)
+    aim = models.ForeignKey(to=Aim, related_name='expenses', on_delete=models.CASCADE, null=True, blank=True)
     active = models.BooleanField(default=True)
